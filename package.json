@@ -1,0 +1,28 @@
+{
+  "name": "blago_cryto_bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iBehruz/blago_cryto_bot.git"
+  },
+  "keywords": [
+    "crypto",
+    "exchange"
+  ],
+  "author": "iBehruz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iBehruz/blago_cryto_bot/issues"
+  },
+  "homepage": "https://github.com/iBehruz/blago_cryto_bot#readme",
+  "dependencies": {
+    "bybit-api": "^3.3.5",
+    "node-telegram-bot-api": "^0.60.0",
+    "nodemon": "^2.0.20"
+  }
+}
