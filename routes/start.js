@@ -2,8 +2,33 @@ const bot = require('../index');
 const Buy = require('./buy');
 const Base = require('./base');
 const { backCrText } = require('./base');
+const Msg = require('../controllers/msg');
+
 class Start extends Base{
    static tx = '/start';
+
+   text = `Приветствую ${Msg.get().from.first_name}!
+   У тебя большой обмен?!
+   Тогда ты по адресу...
+   
+   Ваш текущий бонус: 0 сум
+   Ваше количество успешных сделок: 0
+   Команды /start /course /echo /help`;
+
+   options = {
+    reply_markup: {
+      // selective: true,
+      // one_time_keyboard: true,
+      resize_keyboard: true,
+      keyboard: [
+        [{text: Buy.tx}, {text: "🥇 Продать криптовалюту"}],
+        [{text: "🟢 Мои активные сделки"}],
+        [{text: "🔢 Калькулятор"}],
+        [{text: "👥 Рефералка"}, {text: "🎁 Промокоды"}],
+        [{text: "📘 Контакты"}, {text: "📭 Оставить отзыв"}],
+      ],
+    }};
+
 
     available_cr = {
       "BUY": new Buy()
@@ -12,61 +37,26 @@ class Start extends Base{
     constructor(){
       super()
       this.tx = Start.tx;
-      
+      for(let cd in this.available_cr){
+          this.available_cr[cd].setBackCr(this);
+      }
     }
 
-    handleMsg(msg, metadata){
+    handleMsg(){
 
-      console.log("-----Start Handler------");
-
-
-      if(msg.text == Base.backCrText && this.backCr != null){
+      if(Msg.get().text == Base.backCrText && this.backCr != null){
         return this.backCr;
       }
 
       for(let cd in this.available_cr){
-        console.log(this.available_cr[cd]);
-        if(this.available_cr[cd].tx == msg.text){
-          return  this.available_cr[cd].setBackCr(this);
+        if(this.available_cr[cd].tx == Msg.get().text){
+          return  this.available_cr[cd];
         }
       }
 
       return false;
     }
 
-
-    sendMsg(msg, metadata){
-      let text = `Приветствую ${msg.from.first_name}!
-      У тебя большой обмен?!
-      Тогда ты по адресу...
-      
-      Ваш текущий бонус: 0 сум
-      Ваше количество успешных сделок: 0
-      Команды /start /course /echo /help`;
-      let op = {
-        reply_markup: {
-          // selective: true,
-          // one_time_keyboard: true,
-          resize_keyboard: true,
-          keyboard: [
-            [{text: Buy.tx}, {text: "🥇 Продать криптовалюту"}],
-            [{text: "🟢 Мои активные сделки"}],
-            [{text: "🔢 Калькулятор"}],
-            [{text: "👥 Рефералка"}, {text: "🎁 Промокоды"}],
-            [{text: "📘 Контакты"}, {text: "📭 Оставить отзыв"}],
-          ],
-        }};
-
-        if(this.backCr != null){
-          op.reply_markup.keyboard.push(
-            [{text: Base.backCrText}]
-          );
-        }
-
-        bot.sendMessage(msg.chat.id, text, op)
-
-        return this;
-    }
 }
 
   module.exports = Start;

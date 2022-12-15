@@ -1,58 +1,30 @@
 
-const Start = require('./routes/start');
 const bot = require('./index');
+const Msg = require('./controllers/msg');
+const Session = require('./controllers/session.js');
+
+
+
 
 class App {
-   session = {
-    // "123456": {
-    //   current: new Start();
-    // }
-   };
-
-    msg = null;
-    metadata = null;
-
-    setCurrent(cr){
-      console.log(cr);
-      this.session[this.msg.from.id] = {
-        
-        current: cr.sendMsg(this.msg, this.metadata)
-      }
-    }
-
-    addSession(){
-      console.log("--------new session---------");
-
-      this.session[this.msg.from.id] = {
-        current: new Start().sendMsg(this.msg, this.metadata)
-      }
-
-      console.log(this.session);
-      
-
-    }
-
-    
    available_cr = [];
 
-
    constructor(){
-
       bot.on('message', async (msg, metadata)=>{
-        this.msg = msg;
-        this.metadata = metadata;
+        Msg.set(msg, metadata);
+
         console.clear();
 
-            if( this.session[this.msg.from.id] == null || msg.text == "/start"){
-              this.addSession();
+            if( Session.find() == null || msg.text == "/start"){
+              Session.addSession();
               return;
             }
 
-            let cr = this.session[this.msg.from.id]
-            .current.handleMsg(this.msg, this.metadata);
+            let cr = Session.find()
+            .current.handleMsg();
 
             if(cr != false){
-              this.setCurrent(cr);
+              Session.setCurrent(cr);
             }else{
               this.unknownMsg();
             }
@@ -62,8 +34,9 @@ class App {
    }
 
    unknownMsg(){
-    bot.sendMessage(this.msg.chat.id, "unknown command");
+    bot.sendMessage(Msg.get().chat.id, "unknown command");
    }
+
 
 
 
