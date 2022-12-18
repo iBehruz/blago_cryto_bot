@@ -24,16 +24,13 @@ class Buy extends Base{
 
 
 
-    constructor(){
-      super()
-      this.tx = Buy.tx;
-      for(let cd in this.available_cr){
-        this.available_cr[cd].setBackCr(this);
-    }
-    }
-
+      constructor(){
+        super();
+        this.init();
+      }
     handleMsg(){
       console.log("-----Start Handler------");
+
       if(Msg.get().text == Base.backCrText && this.backCr != null){
         return this.backCr;
       }

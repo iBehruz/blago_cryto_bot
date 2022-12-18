@@ -33,15 +33,10 @@ class Start extends Base{
     available_cr = {
       "BUY": new Buy()
     };
-
     constructor(){
-      super()
-      this.tx = Start.tx;
-      for(let cd in this.available_cr){
-          this.available_cr[cd].setBackCr(this);
-      }
+      super();
+      this.init();
     }
-
     handleMsg(){
 
       if(Msg.get().text == Base.backCrText && this.backCr != null){
