@@ -2,6 +2,7 @@
 const bot = require('./index');
 const Msg = require('./controllers/msg');
 const Session = require('./controllers/session.js');
+const Start = require('./routes/start');
 
 
 
@@ -16,7 +17,7 @@ class App {
         console.clear();
 
             if( Session.find() == null || msg.text == "/start"){
-              Session.addSession();
+              Session.addSession(new Start());
               return;
             }
 
@@ -24,7 +25,7 @@ class App {
             .current.handleMsg();
 
             if(cr != false){
-              Session.setCurrent(cr);
+             
             }else{
               this.unknownMsg();
             }

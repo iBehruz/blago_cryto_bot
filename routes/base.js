@@ -1,5 +1,4 @@
-const bot = require('../index');
-const Msg = require('../controllers/msg');
+
 class Base {
   text = "none";
   options = {};
@@ -14,10 +13,10 @@ class Base {
     }
   }
 
-  activate(){
-    bot.sendMessage(Msg.get().chat.id, this.text, Object.assign({}, this.options));
-    return this;
+  onShow(){
+    
   }
+
 
   static backCrText = "Назад";
     backCr = null;

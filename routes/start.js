@@ -1,7 +1,7 @@
-const bot = require('../index');
-const Buy = require('./buy');
+
+const Buy = require('./buy/buy');
 const Base = require('./base');
-const { backCrText } = require('./base');
+const Session = require('../controllers/session.js');
 const Msg = require('../controllers/msg');
 
 class Start extends Base{
@@ -40,12 +40,12 @@ class Start extends Base{
     handleMsg(){
 
       if(Msg.get().text == Base.backCrText && this.backCr != null){
-        return this.backCr;
+        return  Session.setCurrent(this.backCr);
       }
 
       for(let cd in this.available_cr){
         if(this.available_cr[cd].tx == Msg.get().text){
-          return  this.available_cr[cd];
+          return  Session.setCurrent(this.available_cr[cd]);
         }
       }
 

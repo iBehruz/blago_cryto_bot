@@ -1,5 +1,5 @@
 const Base = require("./base");
-const Buy = require("./buy");
+const Buy = require("./buy/buy");
 const Msg = require('../controllers/msg');
 
 class Editor extends Base{

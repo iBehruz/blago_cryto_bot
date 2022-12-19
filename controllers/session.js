@@ -1,5 +1,4 @@
 
-const Start = require('../routes/start');
 const Msg = require('./msg');
 class Session{
     session = {
@@ -33,23 +32,23 @@ class Session{
 
        setCurrent(cr){
       //  console.log(cr);
-        this.user = {
+        this.session[Msg.get().from.id] = {
           data: null,
-          current: cr.activate()
+          current: cr
         }
+        cr.onShow();
+        Msg.sendMsg(cr.text, cr.options);
       }
 
-
-       addSession(){
+       addSession(cr){
         console.log("--------new session---------");
   
         this.session[Msg.get().from.id] = {
-          current: new Start().activate()
-        }
+          current: cr
+        };
+        Msg.sendMsg(cr.text, cr.options);
   
         console.log(this.session);
-        
-  
       }
 
 

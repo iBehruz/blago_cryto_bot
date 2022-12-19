@@ -1,3 +1,6 @@
+
+const bot = require('../index');
+
 class Msg {
     
     msg = null;
@@ -16,6 +19,14 @@ class Msg {
     set(msg, metadata){
         this.msg = msg;
         this.metadata = metadata;
+    }
+
+    sendText(text){
+        bot.sendMessage(this.get().chat.id, text);
+    }
+
+    sendMsg(text, options){
+        bot.sendMessage(this.get().chat.id, text, Object.assign({}, options));
     }
 }
 

@@ -1,7 +1,7 @@
-const bot = require('../index');
+const Session = require('../../controllers/session');
 const LTC = require('./ltc');
-const Base = require('./base');
-const Msg = require('../controllers/msg');
+const Base = require('../base');
+const Msg = require('../../controllers/msg');
 
 class Buy extends Base{
   static  tx = '💵 Купить криптовалюту';
@@ -29,15 +29,14 @@ class Buy extends Base{
         this.init();
       }
     handleMsg(){
-      console.log("-----Start Handler------");
 
       if(Msg.get().text == Base.backCrText && this.backCr != null){
-        return this.backCr;
+        return  Session.setCurrent(this.backCr);
       }
+
       for(let cd in this.available_cr){
         if(this.available_cr[cd].tx == Msg.get().text){
-          
-          return  this.available_cr[cd];
+          return  Session.setCurrent(this.available_cr[cd]);
         }
       }
 
